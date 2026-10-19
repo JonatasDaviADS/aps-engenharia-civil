@@ -1,0 +1,167 @@
+:root {
+  --cor-dourado: #B38E46;
+  --cor-dourado-hover: #9A7632;
+  --cor-dourado-claro: #F7F2E7;
+  --cor-marinho: #122A44;
+  --cor-marinho-escuro: #0B1B2C;
+  --cor-fundo: #F8F9FA;
+  --cor-card: #FFFFFF;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  font-family: 'Inter', sans-serif;
+  color: #2D3748;
+}
+
+/* Identidade Visual da Marca */
+.bg-navy {
+  background-color: var(--cor-marinho) !important;
+}
+
+.text-navy {
+  color: var(--cor-marinho) !important;
+}
+
+.text-gold {
+  color: var(--cor-dourado) !important;
+}
+
+.border-navy {
+  border-color: var(--cor-marinho) !important;
+}
+
+.border-gold {
+  border-color: var(--cor-dourado) !important;
+}
+
+/* Navbar */
+.nav-custom {
+  background-color: var(--cor-marinho);
+  border-bottom: 3px solid var(--cor-dourado);
+}
+
+.brand-monogram {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cor-dourado);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.brand-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+}
+
+.brand-sub {
+  font-size: 0.75rem;
+  color: var(--cor-dourado);
+  letter-spacing: 1px;
+}
+
+.btn-nav {
+  color: #E2E8F0;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-nav:hover {
+  color: var(--cor-dourado);
+}
+
+.btn-nav.active {
+  background-color: var(--cor-dourado);
+  color: #FFFFFF !important;
+}
+
+/* Botões Customizados */
+.btn-gold {
+  background-color: var(--cor-dourado);
+  color: #FFFFFF;
+  border: none;
+}
+
+.btn-gold:hover {
+  background-color: var(--cor-dourado-hover);
+  color: #FFFFFF;
+}
+
+.btn-navy {
+  background-color: var(--cor-marinho);
+  color: #FFFFFF;
+  border: none;
+}
+
+.btn-navy:hover {
+  background-color: var(--cor-marinho-escuro);
+  color: #FFFFFF;
+}
+
+/* Hero Section */
+.hero-card {
+  background: linear-gradient(135deg, var(--cor-marinho) 0%, var(--cor-marinho-escuro) 100%);
+  border-left: 6px solid var(--cor-dourado);
+}
+
+.badge-gold {
+  background-color: rgba(179, 142, 70, 0.2);
+  color: var(--cor-dourado);
+  border: 1px solid var(--cor-dourado);
+  padding: 0.5rem 0.85rem;
+  border-radius: 20px;
+}
+
+.card-service {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-service:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  background-color: var(--cor-dourado-claro);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Área de Resultados da Calculadora */
+.result-box {
+  background-color: var(--cor-dourado-claro);
+  border: 1px solid #E2D4B7;
+}
+
+/* Linha do Tempo Customizada */
+.timeline-custom {
+  position: relative;
+  border-left: 3px solid var(--cor-dourado);
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.95rem;
+  top: 0.2rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--cor-dourado);
+  border: 3px solid #FFFFFF;
+}

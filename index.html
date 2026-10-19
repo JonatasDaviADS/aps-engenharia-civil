@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APS Engenharia Civil — Alexandre P. Santos</title>
+
+  <!-- 1. Bootstrap 5 CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- 2. Bootstrap Icons via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- 3. Fonte Corporativa Inter do Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- 4. Folha de Estilos Própria com a Paleta Oficial da Marca AS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação Superior (Navbar) -->
+  <header class="navbar navbar-expand-lg navbar-dark nav-custom shadow-sm sticky-top">
+    <div class="container">
+      <div class="navbar-brand d-flex align-items-center gap-2">
+        <span class="brand-monogram">AS</span>
+        <div class="d-flex flex-column">
+          <span class="brand-name">ALEXANDRE P. SANTOS</span>
+          <span class="brand-sub">ENGENHARIA CIVIL</span>
+        </div>
+      </div>
+      <nav class="nav gap-2 ms-auto">
+        <button class="btn btn-nav active" id="btn-tab-institucional" onclick="trocarAba('institucional')">
+          <i class="bi bi-house-door me-1"></i> Início (Vitrine)
+        </button>
+        <button class="btn btn-nav" id="btn-tab-engenheiro" onclick="trocarAba('engenheiro')">
+          <i class="bi bi-calculator me-1"></i> Painel do Engenheiro
+        </button>
+        <button class="btn btn-nav" id="btn-tab-cliente" onclick="trocarAba('cliente')">
+          <i class="bi bi-person-badge me-1"></i> Portal do Cliente
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Área de Conteúdo Dinâmico -->
+  <main class="container my-4">
+
+    <!-- ABA 1: VITRINE INSTITUCIONAL (RF01) -->
+    <section id="aba-institucional" class="tab-pane-custom active">
+      <div class="hero-card p-4 p-md-5 rounded-4 text-white shadow-sm mb-4">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <span class="badge badge-gold mb-3">
+              <i class="bi bi-patch-check-fill me-1"></i> Engenheiro Civil • CREA-RS 133612
+            </span>
+            <h1 class="display-6 fw-bold mb-3">Alexandre Pereira Santos</h1>
+            <p class="lead text-light-50 mb-4">
+              Atuação sólida desde 2005 com foco em reformas, gestão operacional de obras civis e supervisão técnica. Rigor em medições de campo, controle financeiro transparente e comunicação assertiva.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="https://wa.me/5551999999999?text=Olá%20Engenheiro%20Alexandre,%20gostaria%20de%20um%20orçamento%20técnico." target="_blank" class="btn btn-gold btn-lg">
+                <i class="bi bi-whatsapp me-1"></i> Solicitar Orçamento via WhatsApp
+              </a>
+              <button class="btn btn-outline-light btn-lg" onclick="trocarAba('engenheiro')">
+                <i class="bi bi-speedometer2 me-1"></i> Acessar Painel Técnico
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 card-service shadow-sm border-0 p-3">
+            <div class="card-body">
+              <div class="icon-circle mb-3">
+                <i class="bi bi-tools text-gold fs-3"></i>
+              </div>
+              <h5 class="card-title fw-bold text-navy">Gestão e Execução de Obras</h5>
+              <p class="card-text text-muted">
+                Supervisão direta no canteiro, fiscalização de qualidade de acabamento, controle de cronograma e prevenção de atrasos.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 card-service shadow-sm border-0 p-3">
+            <div class="card-body">
+              <div class="icon-circle mb-3">
+                <i class="bi bi-rulers text-gold fs-3"></i>
+              </div>
+              <h5 class="card-title fw-bold text-navy">Medições e Quantitativos</h5>
+              <p class="card-text text-muted">
+                Levantamento in loco com memória de cálculo precisa, aplicando margem técnica de 10% de perda para evitar desperdício ou falta de material.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 card-service shadow-sm border-0 p-3">
+            <div class="card-body">
+              <div class="icon-circle mb-3">
+                <i class="bi bi-file-earmark-check text-gold fs-3"></i>
+              </div>
+              <h5 class="card-title fw-bold text-navy">Prestação de Contas</h5>
+              <p class="card-text text-muted">
+                Centralização de comprovantes fiscais para reembolso de compras e emissão de relatórios fotográficos de evolução a cada visita.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: PAINEL DO ENGENHEIRO (RF03, RF04, RF05) -->
+    <section id="aba-engenheiro" class="tab-pane-custom d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+          <h2 class="h4 fw-bold text-navy mb-0">Painel Operacional do Engenheiro</h2>
+          <small class="text-muted">Gestão de vistorias técnicas e memorial de cálculo de insumos</small>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Calculadora de Quantitativos -->
+        <div class="col-lg-6">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0 fw-bold text-navy">
+                <i class="bi bi-calculator me-1 text-gold"></i> Calculadora de Revestimento
+              </h5>
+              <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">
+                Regra Técnica: +10% Perda
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="comprimento" class="form-label fw-semibold text-secondary">Comprimento do Cômodo (m):</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-arrow-left-right"></i></span>
+                  <input type="number" id="comprimento" class="form-control" step="0.01" placeholder="Ex: 4.50">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="largura" class="form-label fw-semibold text-secondary">Largura do Cômodo (m):</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-arrow-up-down"></i></span>
+                  <input type="number" id="largura" class="form-control" step="0.01" placeholder="Ex: 3.20">
+                </div>
+              </div>
+              <button class="btn btn-navy w-100 py-2 fw-semibold" onclick="calcularQuantitativos()">
+                <i class="bi bi-cpu me-1"></i> Processar Memória de Cálculo
+              </button>
+
+              <div id="resultado-calculo" class="result-box p-3 rounded-3 mt-3 d-none">
+                <h6 class="fw-bold text-navy mb-3 border-bottom pb-2">
+                  <i class="bi bi-clipboard-data me-1"></i> Resumo para Solicitação de Materiais (SM):
+                </h6>
+                <div class="row g-2 text-dark">
+                  <div class="col-6">Área Líquida:</div>
+                  <div class="col-6 text-end fw-bold"><span id="res-area">0.00</span> m²</div>
+
+                  <div class="col-6">Piso (+10% quebra):</div>
+                  <div class="col-6 text-end fw-bold text-gold"><span id="res-piso">0.00</span> m²</div>
+
+                  <div class="col-6">Argamassa Estimada:</div>
+                  <div class="col-6 text-end fw-bold"><span id="res-argamassa">0.0</span> kg</div>
+
+                  <div class="col-6">Rejunte Estimado:</div>
+                  <div class="col-6 text-end fw-bold"><span id="res-rejunte">0.0</span> kg</div>
+                </div>
+                <small class="text-muted d-block mt-2">
+                  *Consumos médios adotados: 5 kg/m² para argamassa colante e 0,5 kg/m² para rejunte.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulário de Diário de Visita de Campo -->
+        <div class="col-lg-6">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title mb-0 fw-bold text-navy">
+                <i class="bi bi-journal-plus me-1 text-gold"></i> Novo Registro de Diário de Campo
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="obra-selecionada" class="form-label fw-semibold text-secondary">Obra / Contratante:</label>
+                <select id="obra-selecionada" class="form-select">
+                  <option value="Residencial Campos Velho">Residencial Campos Velho - Apto 302</option>
+                  <option value="Reforma Comercial Demétrio">Reforma Comercial Demétrio</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="relatorio-texto" class="form-label fw-semibold text-secondary">Anotações Técnicas da Visita:</label>
+                <textarea id="relatorio-texto" class="form-control" rows="3" placeholder="Ex: Vistoria de conferência de contrapiso e prumo das paredes. Tudo liberado para assentamento do porcelanato..."></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="foto-url" class="form-label fw-semibold text-secondary">Legenda / Identificador Fotográfico:</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-camera"></i></span>
+                  <input type="text" id="foto-url" class="form-control" placeholder="Ex: Foto 02 - Conferência de esquadro dos banheiros">
+                </div>
+              </div>
+              <button class="btn btn-gold w-100 py-2 fw-semibold" onclick="adicionarRelatorio()">
+                <i class="bi bi-send-check me-1"></i> Publicar no Portal do Cliente
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 3: PORTAL DO CLIENTE (RF06) -->
+    <section id="aba-cliente" class="tab-pane-custom d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+          <h2 class="h4 fw-bold text-navy mb-0">Portal de Acompanhamento do Cliente</h2>
+          <small class="text-muted">Obra ativa: <strong>Residencial Campos Velho - Apto 302</strong></small>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="p-3 bg-white rounded-3 shadow-sm border-start border-4 border-gold">
+            <span class="text-uppercase text-muted small fw-bold d-block">Status Atual da Obra</span>
+            <span class="fs-6 fw-bold text-success"><i class="bi bi-play-circle-fill me-1"></i> Em Execução</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 bg-white rounded-3 shadow-sm border-start border-4 border-navy">
+            <span class="text-uppercase text-muted small fw-bold d-block">Responsável Técnico</span>
+            <span class="fs-6 fw-bold text-navy">Eng. Alexandre P. Santos (CREA 133612)</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 bg-white rounded-3 shadow-sm border-start border-4 border-gold">
+            <span class="text-uppercase text-muted small fw-bold d-block">Regime de Contratação</span>
+            <span class="fs-6 fw-bold text-secondary">Reembolso com Comprovante Fiscal</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0 fw-bold text-navy">
+            <i class="bi bi-clock-history me-1 text-gold"></i> Linha do Tempo e Vistorias Realizadas
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <div id="timeline-container" class="timeline-custom">
+            <!-- Gerado dinamicamente pelo JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-navy text-white text-center py-3 mt-5">
+    <div class="container">
+      <small class="text-light-50">
+        APS Engenharia Civil • Registro Profissional CREA-RS 133612 • Desenvolvido para o Projeto Acadêmico de Extensão (UniSenac)
+      </small>
+    </div>
+  </footer>
+
+  <!-- 1. Bootstrap Bundle JS via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 2. Arquivo de Lógica Próprio -->
+  <script src="js/app.js"></script>
+</body>
+</html>
