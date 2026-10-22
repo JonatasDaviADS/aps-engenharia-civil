@@ -115,3 +115,13 @@ function adicionarRelatorio() {
 
 // Executa automaticamente ao carregar a página
 window.onload = renderizarTimeline;
+
+// Monta o link do WhatsApp usando os valores do config.js
+function configurarWhatsapp() {
+  const link = document.getElementById("link-whatsapp");
+  const mensagem = encodeURIComponent(CONFIG.whatsappMensagem);
+  link.href = `https://wa.me/${CONFIG.whatsappNumero}?text=${mensagem}`;
+}
+
+// Executa a função assim que o HTML terminar de ser lido
+document.addEventListener("DOMContentLoaded", configurarWhatsapp);
