@@ -99,28 +99,73 @@ const CHAVE_RELATORIOS = "aps.relatorios";
 // Relatórios de exemplo (FICTÍCIOS), usados na primeira vez que o sistema abre
 const RELATORIOS_EXEMPLO = [
   {
+    obra: "a",
     data: "14/10/2026",
     texto:
       "Vistoria inicial concluída. Registro fotográfico do canteiro anexado e medições dos cômodos validadas com o contratante.",
     foto: "Foto 01: Esquadrias e prumo de parede conferidos",
   },
   {
+    obra: "a",
     data: "10/10/2026",
     texto:
       "Abertura formal do projeto e assinatura da ordem de serviço com regime de reembolso de materiais.",
     foto: "Doc: Contrato assinado pelas partes",
+  },
+  {
+    obra: "b",
+    data: "20/09/2026",
+    texto:
+      "Visita técnica aos banheiros. Levantamento de áreas e diagnóstico de umidade nas paredes.",
+    foto: "Foto 01: Estado atual do banheiro social",
   },
 ];
 
 // Carrega do navegador. Se for a 1ª vez, usa uma CÓPIA dos exemplos.
 let relatorios = carregarJSON(CHAVE_RELATORIOS, [...RELATORIOS_EXEMPLO]);
 
-// Desenha a linha do tempo (de forma segura, sem innerHTML com texto digitado)
-function renderizarTimeline() {
-  const container = document.getElementById("timeline-container");
-  container.innerHTML = ""; // aqui é seguro: só estamos APAGANDO
+// Cria as <option> dos dois selects a partir de OBRAS (config.js)
+function preencherSelectsDeObra() {
+  ["obra-selecionada", "obra-cliente"].forEach((id) => {
+    const select = document.getElementById(id);
+    select.innerHTML = ""; // só apagando: seguro
+    Object.keys(OBRAS).forEach((chave) => {
+      const opcao = criarElemento("option", OBRAS[chave].nome);
+      opcao.value = chave; // o "value" é a chave: "a" ou "b"
+      select.appendChild(opcao);
+    });
+  });
+}
 
-  relatorios.forEach((item) => {
+// Desenha a linha do tempo SÓ da obra escolhida no portal (RNF02)
+function renderizarTimeline() {
+  const chaveObra = document.getElementById("obra-cliente").value;
+  const obra = OBRAS[chaveObra];
+  if (!obra) return; // proteção: se nenhuma obra estiver selecionada, não faz nada
+
+  // Os cartões de status e regime vêm da obra escolhida
+  document.getElementById("cli-status").textContent = obra.status;
+  document.getElementById("cli-regime").textContent = obra.regime;
+
+  const container = document.getElementById("timeline-container");
+  container.innerHTML = ""; // só apagando: seguro
+
+  // filter = "fique só com os relatórios desta obra"
+  // (relatórios antigos, sem o campo obra, contam como "a")
+  const doCliente = relatorios.filter((r) => (r.obra || "a") === chaveObra);
+
+  if (doCliente.length === 0) {
+    container.appendChild(
+      criarElemento(
+        "p",
+        "Nenhuma vistoria registrada ainda.",
+        "text-muted mb-0",
+      ),
+    );
+    return;
+  }
+
+  doCliente.forEach((item) => {
     const bloco = criarElemento("div", null, "timeline-item");
     bloco.appendChild(
       criarElemento("div", item.data, "fw-bold text-gold small"),
@@ -138,6 +183,7 @@ function renderizarTimeline() {
 
 // Engenheiro publica uma nova vistoria
 function adicionarRelatorio() {
+  const obra = document.getElementById("obra-selecionada").value; // "a" ou "b"
   const texto = document.getElementById("relatorio-texto").value.trim();
   const foto = document.getElementById("foto-url").value.trim();
 
@@ -150,21 +196,21 @@ function adicionarRelatorio() {
     return;
   }
 
-  // unshift = adiciona no INÍCIO da lista (a mais recente aparece primeiro)
   relatorios.unshift({
+    obra: obra, // agora o campo "Obra / Contratante" é realmente usado
     data: new Date().toLocaleDateString("pt-BR"),
     texto: texto,
     foto: foto !== "" ? foto : "Registro fotográfico anexado",
   });
 
-  salvarJSON(CHAVE_RELATORIOS, relatorios); // guarda no navegador
+  salvarJSON(CHAVE_RELATORIOS, relatorios);
   renderizarTimeline();
 
   document.getElementById("relatorio-texto").value = "";
   document.getElementById("foto-url").value = "";
   mostrarAviso(
     "aviso-diario",
-    "Vistoria publicada! Ela já está visível no Portal do Cliente.",
+    `Vistoria publicada em "${OBRAS[obra].nome}".`,
     "success",
   );
 }
@@ -174,10 +220,12 @@ function restaurarExemplos() {
   relatorios = [...RELATORIOS_EXEMPLO];
   salvarJSON(CHAVE_RELATORIOS, relatorios);
   renderizarTimeline();
+  mostrarAviso(
+    "aviso-diario",
+    "Exemplos restaurados. Confira no Portal do Cliente.",
+    "success",
+  );
 }
-
-// Desenha a linha do tempo assim que o HTML terminar de carregar
-document.addEventListener("DOMContentLoaded", renderizarTimeline);
 
 // Monta o link do WhatsApp usando os valores do config.js
 function configurarWhatsapp() {
@@ -186,5 +234,13 @@ function configurarWhatsapp() {
   link.href = `https://wa.me/${CONFIG.whatsappNumero}?text=${mensagem}`;
 }
 
-// Executa a função assim que o HTML terminar de ser lido
+// Ordem importa: primeiro cria as opções, depois desenha a linha do tempo
+function iniciarPortal() {
+  preencherSelectsDeObra();
+  document
+    .getElementById("obra-cliente")
+    .addEventListener("change", renderizarTimeline);
+  renderizarTimeline();
+}
+document.addEventListener("DOMContentLoaded", iniciarPortal);
 document.addEventListener("DOMContentLoaded", configurarWhatsapp);

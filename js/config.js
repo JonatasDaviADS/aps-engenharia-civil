@@ -19,3 +19,17 @@ const CONFIG = {
   responsavelPadrao: "Eng. Civil - Alexandre P. Santos",
   creaPadrao: "CREA/RS 133612",
 };
+// Obras FICTÍCIAS, só para demonstração (nenhum cliente real).
+// A chave ("a", "b") identifica a obra; os relatórios usam essa chave.
+const OBRAS = {
+  a: {
+    nome: "Cliente Exemplo A – Reforma Apto 302",
+    status: "Em Execução",
+    regime: "Reembolso com Comprovante Fiscal",
+  },
+  b: {
+    nome: "Cliente Exemplo B – Reforma de Banheiros",
+    status: "Orçamento Elaborado",
+    regime: "Empreitada Global (preço fechado)",
+  },
+};

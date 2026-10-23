@@ -197,10 +197,7 @@
             <div class="card-body">
               <div class="mb-3">
                 <label for="obra-selecionada" class="form-label fw-semibold text-secondary">Obra / Contratante:</label>
-                <select id="obra-selecionada" class="form-select">
-                  <option value="Residencial Campos Velho">Residencial Campos Velho - Apto 302</option>
-                  <option value="Reforma Comercial Demétrio">Reforma Comercial Demétrio</option>
-                </select>
+                <select id="obra-selecionada" class="form-select"></select>
               </div>
               <div class="mb-3">
                 <label for="relatorio-texto" class="form-label fw-semibold text-secondary">Anotações Técnicas da Visita:</label>
@@ -225,18 +222,22 @@
 
     <!-- ABA 3: PORTAL DO CLIENTE (RF06) -->
     <section id="aba-cliente" class="tab-pane-custom d-none">
-      <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-2 border-bottom">
         <div>
-          <h2 class="h4 fw-bold text-navy mb-0">Portal de Acompanhamento do Cliente</h2>
-          <small class="text-muted">Obra ativa: <strong>Residencial Campos Velho - Apto 302</strong></small>
+            <h2 class="h4 fw-bold text-navy mb-0">Portal de Acompanhamento do Cliente</h2>
+            <small class="text-muted">Cada cliente enxerga apenas a sua própria obra</small>
         </div>
-      </div>
+        <div>
+            <label for="obra-cliente" class="form-label small mb-0 text-muted">Simular acesso do cliente:</label>
+            <select id="obra-cliente" class="form-select form-select-sm"></select>
+        </div>
+    </div>
 
       <div class="row g-3 mb-4">
         <div class="col-md-4">
           <div class="p-3 bg-white rounded-3 shadow-sm border-start border-4 border-gold">
             <span class="text-uppercase text-muted small fw-bold d-block">Status Atual da Obra</span>
-            <span class="fs-6 fw-bold text-success"><i class="bi bi-play-circle-fill me-1"></i> Em Execução</span>
+            <span class="fs-6 fw-bold text-success"><i class="bi bi-play-circle-fill me-1"></i> <span id="cli-status">—</span></span>
           </div>
         </div>
         <div class="col-md-4">
@@ -248,7 +249,7 @@
         <div class="col-md-4">
           <div class="p-3 bg-white rounded-3 shadow-sm border-start border-4 border-gold">
             <span class="text-uppercase text-muted small fw-bold d-block">Regime de Contratação</span>
-            <span class="fs-6 fw-bold text-secondary">Reembolso com Comprovante Fiscal</span>
+            <span class="fs-6 fw-bold text-secondary" id="cli-regime">—</span>
           </div>
         </div>
       </div>
