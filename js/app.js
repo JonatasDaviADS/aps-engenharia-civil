@@ -1,3 +1,10 @@
+// Mostra uma mensagem dentro da página (no lugar do alert(), que trava a tela).
+// tipo: "warning" (amarelo), "success" (verde), "danger" (vermelho)
+function mostrarAviso(idElemento, mensagem, tipo) {
+  const caixa = document.getElementById(idElemento);
+  caixa.className = `alert alert-${tipo} py-2 small mt-3`;
+  caixa.textContent = mensagem;
+}
 // Controle de Alternância de Abas na Interface
 function trocarAba(abaId) {
   // Oculta todas as seções
@@ -15,34 +22,38 @@ function trocarAba(abaId) {
   document.getElementById(`btn-tab-${abaId}`).classList.add("active");
 }
 
-// Calculadora Técnica de Insumos com Margem de Perda (+10%)
+// Calculadora Técnica de Insumos com Margem de Perda (RF04)
 function calcularQuantitativos() {
   const comp = parseFloat(document.getElementById("comprimento").value);
   const larg = parseFloat(document.getElementById("largura").value);
 
+  // Validação: se algo estiver errado, avisa, esconde resultado antigo e PARA
   if (isNaN(comp) || isNaN(larg) || comp <= 0 || larg <= 0) {
-    alert(
-      "Por favor, informe medidas válidas de comprimento e largura (valores maiores que zero).",
+    mostrarAviso(
+      "aviso-calc",
+      "Informe comprimento e largura maiores que zero.",
+      "warning",
     );
+    document.getElementById("resultado-calculo").classList.add("d-none");
     return;
   }
+  document.getElementById("aviso-calc").classList.add("d-none");
 
-  // 1. Cálculo da Área Líquida
+  // 1. Área Líquida (m²)
   const areaLiquida = comp * larg;
 
-  // 2. Acréscimo da Margem Técnica de 10% de Perda/Quebra
-  const areaComPerda = areaLiquida * 1.1;
+  // 2. Área com a margem de perda: 1 (=100%) + 0,10 (=10%) = 1,10
+  const areaComPerda = areaLiquida * (1 + CONFIG.perdaTecnica);
 
-  // 3. Estimativa de Consumo Médio Padrão
-  const argamassaKg = areaComPerda * 5.0; // 5 kg por m²
-  const rejunteKg = areaComPerda * 0.5; // 0,5 kg por m²
+  // 3. Consumo estimado de insumos (valores vêm do config.js)
+  const argamassaKg = areaComPerda * CONFIG.consumoArgamassaKgM2;
+  const rejunteKg = areaComPerda * CONFIG.consumoRejunteKgM2;
 
-  // Inserção dos dados calculados na tela
-  document.getElementById("res-area").innerText = areaLiquida.toFixed(2);
-  document.getElementById("res-piso").innerText = areaComPerda.toFixed(2);
-  document.getElementById("res-argamassa").innerText = argamassaKg.toFixed(1);
-  document.getElementById("res-rejunte").innerText = rejunteKg.toFixed(1);
-
+  // 4. Mostra os resultados na tela (toFixed = quantidade de casas decimais)
+  document.getElementById("res-area").textContent = areaLiquida.toFixed(2);
+  document.getElementById("res-piso").textContent = areaComPerda.toFixed(2);
+  document.getElementById("res-argamassa").textContent = argamassaKg.toFixed(1);
+  document.getElementById("res-rejunte").textContent = rejunteKg.toFixed(1);
   // Torna a caixa de resultados visível
   document.getElementById("resultado-calculo").classList.remove("d-none");
 }
