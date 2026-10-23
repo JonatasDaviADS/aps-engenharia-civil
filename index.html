@@ -123,8 +123,11 @@
         <div>
           <h2 class="h4 fw-bold text-navy mb-0">Painel Operacional do Engenheiro</h2>
           <small class="text-muted">Gestão de vistorias técnicas e memorial de cálculo de insumos</small>
+          </div>
+          <button class="btn btn-sm btn-outline-secondary" onclick="restaurarExemplos()">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Restaurar exemplos
+          </button>
         </div>
-      </div>
 
       <div class="row g-4">
         <!-- Calculadora de Quantitativos -->
@@ -211,8 +214,9 @@
                 </div>
               </div>
               <button class="btn btn-gold w-100 py-2 fw-semibold" onclick="adicionarRelatorio()">
-                <i class="bi bi-send-check me-1"></i> Publicar no Portal do Cliente
+                <i class="bi bi-send-check me-1"></i> Publicar no Portal do Cliente   
               </button>
+              <div id="aviso-diario" class="d-none" role="alert" aria-live="polite"></div>
             </div>
           </div>
         </div>

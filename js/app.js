@@ -4,7 +4,41 @@ function mostrarAviso(idElemento, mensagem, tipo) {
   const caixa = document.getElementById(idElemento);
   caixa.className = `alert alert-${tipo} py-2 small mt-3`;
   caixa.textContent = mensagem;
+  // Mensagem de sucesso some sozinha depois de 4 segundos
+  if (tipo === "success") {
+    setTimeout(() => caixa.classList.add("d-none"), 4000);
+  }
 }
+
+// Lê um dado salvo no navegador (localStorage).
+// Se não existir, ou se o navegador bloquear, devolve o valor "padrao".
+function carregarJSON(chave, padrao) {
+  try {
+    const texto = localStorage.getItem(chave);
+    return texto ? JSON.parse(texto) : padrao;
+  } catch (erro) {
+    return padrao;
+  }
+}
+
+// Salva qualquer lista/objeto no navegador, convertido para texto JSON.
+function salvarJSON(chave, valor) {
+  try {
+    localStorage.setItem(chave, JSON.stringify(valor));
+  } catch (erro) {
+    // sem armazenamento: o sistema continua funcionando, só não guarda
+  }
+}
+
+// Cria um elemento HTML de forma SEGURA.
+// textContent trata o texto como TEXTO, nunca como código (evita XSS).
+function criarElemento(tag, texto, classes) {
+  const elemento = document.createElement(tag);
+  if (texto !== undefined && texto !== null) elemento.textContent = texto;
+  if (classes) elemento.className = classes;
+  return elemento;
+}
+
 // Controle de Alternância de Abas na Interface
 function trocarAba(abaId) {
   // Oculta todas as seções
@@ -58,8 +92,12 @@ function calcularQuantitativos() {
   document.getElementById("resultado-calculo").classList.remove("d-none");
 }
 
-// Base Inicial de Relatórios de Vistoria (Portal do Cliente)
-let relatorios = [
+// ---------- Diário de campo (RF03) e Portal do Cliente (RF06) ----------
+
+const CHAVE_RELATORIOS = "aps.relatorios";
+
+// Relatórios de exemplo (FICTÍCIOS), usados na primeira vez que o sistema abre
+const RELATORIOS_EXEMPLO = [
   {
     data: "14/10/2026",
     texto:
@@ -74,58 +112,72 @@ let relatorios = [
   },
 ];
 
-// Função para Renderizar a Linha do Tempo
+// Carrega do navegador. Se for a 1ª vez, usa uma CÓPIA dos exemplos.
+let relatorios = carregarJSON(CHAVE_RELATORIOS, [...RELATORIOS_EXEMPLO]);
+
+// Desenha a linha do tempo (de forma segura, sem innerHTML com texto digitado)
 function renderizarTimeline() {
   const container = document.getElementById("timeline-container");
-  container.innerHTML = "";
+  container.innerHTML = ""; // aqui é seguro: só estamos APAGANDO
 
   relatorios.forEach((item) => {
-    const div = document.createElement("div");
-    div.classList.add("timeline-item");
-    div.innerHTML = `
-      <div class="fw-bold text-gold small">${item.data}</div>
-      <p class="mb-1 text-dark">${item.texto}</p>
-      <span class="badge bg-light text-navy border">
-        <i class="bi bi-paperclip me-1"></i> ${item.foto}
-      </span>
-    `;
-    container.appendChild(div);
+    const bloco = criarElemento("div", null, "timeline-item");
+    bloco.appendChild(
+      criarElemento("div", item.data, "fw-bold text-gold small"),
+    );
+    bloco.appendChild(criarElemento("p", item.texto, "mb-1 text-dark"));
+
+    const selo = criarElemento("span", null, "badge bg-light text-navy border");
+    selo.appendChild(criarElemento("i", null, "bi bi-paperclip me-1"));
+    selo.appendChild(document.createTextNode(item.foto));
+    bloco.appendChild(selo);
+
+    container.appendChild(bloco);
   });
 }
 
-// Função para o Engenheiro Publicar Nova Atualização
+// Engenheiro publica uma nova vistoria
 function adicionarRelatorio() {
-  const texto = document.getElementById("relatorio-texto").value;
-  const foto = document.getElementById("foto-url").value;
+  const texto = document.getElementById("relatorio-texto").value.trim();
+  const foto = document.getElementById("foto-url").value.trim();
 
-  if (texto.trim() === "") {
-    alert("Digite as anotações técnicas da visita antes de publicar.");
+  if (texto === "") {
+    mostrarAviso(
+      "aviso-diario",
+      "Digite as anotações técnicas da visita antes de publicar.",
+      "warning",
+    );
     return;
   }
 
-  const hoje = new Date().toLocaleDateString("pt-BR");
-
-  // Adiciona a nova vistoria no topo da lista
+  // unshift = adiciona no INÍCIO da lista (a mais recente aparece primeiro)
   relatorios.unshift({
-    data: hoje,
+    data: new Date().toLocaleDateString("pt-BR"),
     texto: texto,
-    foto: foto.trim() !== "" ? foto : "Registro fotográfico anexado",
+    foto: foto !== "" ? foto : "Registro fotográfico anexado",
   });
 
-  // Atualiza visualmente a linha do tempo
+  salvarJSON(CHAVE_RELATORIOS, relatorios); // guarda no navegador
   renderizarTimeline();
 
-  // Limpa os campos do formulário
   document.getElementById("relatorio-texto").value = "";
   document.getElementById("foto-url").value = "";
-
-  alert(
-    "Vistoria publicada com sucesso! Ela já está visível no Portal do Cliente.",
+  mostrarAviso(
+    "aviso-diario",
+    "Vistoria publicada! Ela já está visível no Portal do Cliente.",
+    "success",
   );
 }
 
-// Executa automaticamente ao carregar a página
-window.onload = renderizarTimeline;
+// Volta aos dados de exemplo (use antes de apresentar)
+function restaurarExemplos() {
+  relatorios = [...RELATORIOS_EXEMPLO];
+  salvarJSON(CHAVE_RELATORIOS, relatorios);
+  renderizarTimeline();
+}
+
+// Desenha a linha do tempo assim que o HTML terminar de carregar
+document.addEventListener("DOMContentLoaded", renderizarTimeline);
 
 // Monta o link do WhatsApp usando os valores do config.js
 function configurarWhatsapp() {
