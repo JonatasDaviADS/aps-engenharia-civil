@@ -39,21 +39,21 @@ function criarElemento(tag, texto, classes) {
   return elemento;
 }
 
-// Controle de Alternância de Abas na Interface
+// Lista de TODAS as abas do sistema (os nomes batem com os ids do HTML)
+const ABAS = ["institucional", "engenheiro", "orcamento", "cliente"];
+
 function trocarAba(abaId) {
-  // Oculta todas as seções
-  document.getElementById("aba-institucional").classList.add("d-none");
-  document.getElementById("aba-engenheiro").classList.add("d-none");
-  document.getElementById("aba-cliente").classList.add("d-none");
-
-  // Remove estado ativo de todos os botões da barra superior
-  document.getElementById("btn-tab-institucional").classList.remove("active");
-  document.getElementById("btn-tab-engenheiro").classList.remove("active");
-  document.getElementById("btn-tab-cliente").classList.remove("active");
-
-  // Mostra a aba clicada e ativa o botão correspondente
-  document.getElementById(`aba-${abaId}`).classList.remove("d-none");
-  document.getElementById(`btn-tab-${abaId}`).classList.add("active");
+  // percorre a lista: para cada aba, decide se mostra ou esconde
+  ABAS.forEach((id) => {
+    // toggle("d-none", true) -> esconde | toggle("d-none", false) -> mostra
+    document
+      .getElementById(`aba-${id}`)
+      .classList.toggle("d-none", id !== abaId);
+    // toggle("active", true)  -> botão marcado | false -> botão normal
+    document
+      .getElementById(`btn-tab-${id}`)
+      .classList.toggle("active", id === abaId);
+  });
 }
 
 // Calculadora Técnica de Insumos com Margem de Perda (RF04)
