@@ -40,7 +40,7 @@ function criarElemento(tag, texto, classes) {
 }
 
 // Lista de TODAS as abas do sistema (os nomes batem com os ids do HTML)
-const ABAS = ["institucional", "engenheiro", "orcamento", "cliente"];
+const ABAS = ["institucional", "engenheiro", "orcamento", "cliente", "login"];
 
 function trocarAba(abaId) {
   // percorre a lista: para cada aba, decide se mostra ou esconde

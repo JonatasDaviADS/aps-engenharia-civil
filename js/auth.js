@@ -6,7 +6,7 @@
 // Mostra uma mensagem na tela de login. tipo: "danger" | "success" | "warning"
 function mostrarMensagemLogin(texto, tipo) {
   const caixa = document.getElementById("login-msg");
-  caixa.className = "alert alert-${tipo} mt-3"; // cor da mensagem (Bootstrap)
+  caixa.className = `alert alert-${tipo} mt-3`; // cor da mensagem (Bootstrap)
   caixa.textContent = texto; // textContent evita injetar HTML (segurança)
 }
 
@@ -17,7 +17,7 @@ function limparMensagemLogin() {
   caixa.textContent = "";
 }
 
-// Busca nome e papel da pessoa logada na tabela "Perfis"
+// Busca nome e papel da pessoa logada na tabela "perfis"
 async function buscarPerfil(userId) {
   const { data, error } = await clienteSupabase
     .from("perfis") // tabela
@@ -32,15 +32,15 @@ async function buscarPerfil(userId) {
 async function entrar(evento) {
   evento.preventDefault(); // impede a página de recarregar
 
-  const email = document.getElementById("login-email").ariaValueMax.trim();
+  const email = document.getElementById("login-email").value.trim();
   const senha = document.getElementById("login-senha").value;
 
   if (!email || !senha) {
     mostrarMensagemLogin("Informe e-mail e senha.", "warning");
-    return; // break
+    return; // para aqui
   }
 
-  const botão = document.getElementById("btn-entrar");
+  const botao = document.getElementById("btn-entrar");
   botao.disabled = true; // evita o clique duplo
 
   const { error } = await clienteSupabase.auth.signInWithPassword({
@@ -88,7 +88,8 @@ async function atualizarTelaLogin() {
     ? perfil.papel
     : "sem perfil";
 
-  form.classList.add("d-none"); // mostra painel
+  form.classList.add("d-none"); // esconde formulário
+  painel.classList.remove("d-none"); // mostra painel
 }
 
 // Liga os botões quando a página termina de carregar
