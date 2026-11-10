@@ -67,6 +67,35 @@ async function sair() {
   limparMensagemLogin();
 }
 
+// Quais abas cada papel pode ver (ids das abas do index.html)
+const ABAS_POR_PAPEL = {
+  visitante: ["institucional", "login"],
+  cliente: ["institucional", "cliente", "login"],
+  engenheiro: ["institucional", "engenheiro", "orcamento", "cliente", "login"],
+};
+
+// Mostra/esconde os botões do menu conforme o papel
+function aplicarPermissoes(papel) {
+  // se o papel for desconhecido, trata como visitante (mais restrito)
+  const permitidas = ABAS_POR_PAPEL[papel] || ABAS_POR_PAPEL.visitante;
+  const todas = ABAS_POR_PAPEL.engenheiro; // a lista completa de abas
+
+  todas.forEach((id) => {
+    // esconde o botão se a aba NÃO está na lista permitida
+    document
+      .getElementById(`btn-tab-${id}`)
+      .classList.toggle("d-none", !permitidas.includes(id));
+  });
+
+  // se a aba aberta agora não é permitida, volta para a vitrine
+  const abaAberta = todas.find(
+    (id) => !document.getElementById(`aba-${id}`).classList.contains("d-none"),
+  );
+  if (abaAberta && !permitidas.includes(abaAberta)) {
+    trocarAba("institucional");
+  }
+}
+
 // Mostra o formulário OU o painel "logado", conforme a sessão
 async function atualizarTelaLogin() {
   const { data } = await clienteSupabase.auth.getSession();
@@ -78,6 +107,7 @@ async function atualizarTelaLogin() {
   if (!sessao) {
     form.classList.remove("d-none"); // mostra formulário
     painel.classList.add("d-none"); // esconde painel
+    aplicarPermissoes("visitante"); // menu de visitante
     return;
   }
 
@@ -90,11 +120,13 @@ async function atualizarTelaLogin() {
 
   form.classList.add("d-none"); // esconde formulário
   painel.classList.remove("d-none"); // mostra painel
+  aplicarPermissoes(perfil ? perfil.papel : "visitante"); // menu do papel
 }
 
 // Liga os botões quando a página termina de carregar
 document.addEventListener("DOMContentLoaded", () => {
+  aplicarPermissoes("visitante"); // começa restrito, evita "piscar" o menu
   document.getElementById("form-login").addEventListener("submit", entrar);
   document.getElementById("btn-sair").addEventListener("click", sair);
-  atualizarTelaLogin(); // já mostra o estado certo ao abrir o site
+  atualizarTelaLogin(); // ajusta o menu conforme a sessão salva
 });
