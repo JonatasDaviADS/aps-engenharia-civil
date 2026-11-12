@@ -74,8 +74,18 @@ const ABAS_POR_PAPEL = {
   engenheiro: ["institucional", "engenheiro", "orcamento", "cliente", "login"],
 };
 
+// Papel de quem está usando o site agora (muda ao logar/sair)
+let papelAtual = "visitante";
+
+// Responde: o papel atual pode abrir esta aba?
+function podeAcessarAba(id) {
+  return ABAS_POR_PAPEL[papelAtual].includes(id);
+}
+
 // Mostra/esconde os botões do menu conforme o papel
 function aplicarPermissoes(papel) {
+  // guarda o papel atual (se for desconhecido, vale visitante)
+  papelAtual = ABAS_POR_PAPEL[papel] ? papel : "visitante";
   // se o papel for desconhecido, trata como visitante (mais restrito)
   const permitidas = ABAS_POR_PAPEL[papel] || ABAS_POR_PAPEL.visitante;
   const todas = ABAS_POR_PAPEL.engenheiro; // a lista completa de abas

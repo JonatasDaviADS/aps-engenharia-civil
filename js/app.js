@@ -43,6 +43,14 @@ function criarElemento(tag, texto, classes) {
 const ABAS = ["institucional", "engenheiro", "orcamento", "cliente", "login"];
 
 function trocarAba(abaId) {
+  // trava: só abre a aba se o papel atual pode vê-la
+  if (!podeAcessarAba(abaId)) {
+    abaId = "login"; // manda para a tela Entrar
+    mostrarMensagemLogin(
+      "Entre com uma conta autorizada para acessar esta área.",
+      "warning",
+    );
+  }
   // percorre a lista: para cada aba, decide se mostra ou esconde
   ABAS.forEach((id) => {
     // toggle("d-none", true) -> esconde | toggle("d-none", false) -> mostra
