@@ -12,8 +12,8 @@ function mostrarMensagemObra(texto, tipo) {
 }
 
 // Preenche a lista de clientes (vem da tabela "perfis")
-async function carregarClinetes() {
-  const select = document.getElementById("obra-cliente");
+async function carregarClientes() {
+  const select = document.getElementById("cad-cliente");
 
   const { data, error } = await clienteSupabase
     .from("perfis") // tabela
@@ -46,7 +46,7 @@ async function cadastrarObra(evento) {
   const nome = document.getElementById("obra-nome").value.trim();
   const localObra = document.getElementById("obra-local").value.trim();
   const regime = document.getElementById("obra-regime").value;
-  const clienteId = document.getElementById("obra-cliente").value;
+  const clienteId = document.getElementById("cad-cliente").value;
 
   if (!nome || !clienteId) {
     mostrarMensagemObra(

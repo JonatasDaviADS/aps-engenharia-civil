@@ -131,6 +131,7 @@ async function atualizarTelaLogin() {
   form.classList.add("d-none"); // esconde formulário
   painel.classList.remove("d-none"); // mostra painel
   aplicarPermissoes(perfil ? perfil.papel : "visitante"); // menu do papel
+  if (perfil && perfil.papel === "engenheiro") carregarClientes(); // lista do cadastro de obra
 }
 
 // Liga os botões quando a página termina de carregar
